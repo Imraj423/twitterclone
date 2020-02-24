@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'authentication.apps.AuthenticationConfig',
     'tweet.apps.TweetConfig',
     'twitteruser.apps.TwitterUserConfig',
-    'tclone'
+    'twitterclone'
 ]
 
 MIDDLEWARE = [
@@ -59,7 +59,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'clone', 'templates')],
+            os.path.join(BASE_DIR, 'twitterclone', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
