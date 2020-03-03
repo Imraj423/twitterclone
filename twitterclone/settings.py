@@ -27,11 +27,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+LOGIN_URL = '/login/'
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',    'django.contrib.auth',
+    'django.contrib.admin',
+    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -124,4 +126,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-AUTH_USER_MODEL = 'twitteruser.CustomUser'
+AUTH_USER_MODEL = 'twitteruser.TwitterUser'

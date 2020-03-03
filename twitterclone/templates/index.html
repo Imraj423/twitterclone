@@ -1,14 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div>
-        <h1>Display Name: {{ request.item.display_name}}</h1>
-        <h1>Age: {{ request.item.email }}</h1>
+<div>
+   
+{% if request.user.is_anonymous %}
+{{ request.user }}
+{% endif %}
+{% for i in data %}
+  {{ i.body }}
+            <br />
+            {{i.time}}
+           <a href="profile/{{i.id}}/"><strong>{{i.twitter_user}}</strong></a>
+          <a href='/follow/{{follow_target.id}}/'>follow</a>
+        
+        {% endfor %}
     </div>
-</body>
-</html>
+
+    <button><a href="addpost/">Add a Post</a></button>
+    <button><a href="signup/">Register</a></button>
+    <button><a href="logout/">logout</a></button>
+
+
+
+
+
+
+  <section class='col'>
+    <h1>Hello, {{ request.user.username}}</h1>
+    <hr>
+    <br>
+
+{% include "notification.html" %}

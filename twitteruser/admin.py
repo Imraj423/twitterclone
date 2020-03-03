@@ -2,19 +2,19 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm
 
-from twitteruser.models import CustomUser
+from .models import TwitterUser
 
 
-class CustomUserChangeForm(UserChangeForm):
+class TwitterUserChangeForm(UserChangeForm):
     class Meta(UserChangeForm.Meta):
-        model = CustomUser
+        model = TwitterUser
 
 
-class CustomUserAdmin(UserAdmin):
-    # form = CustomUserChangeForm
-    pass
-    # fieldsets = UserAdmin.fieldsets + ((None, {'fields': (
-    #     'homepage', 'display_name', 'age')}),)
+class TwitterUserAdmin(UserAdmin):
+    # form = TwitterUserChangeForm
+
+    fieldsets = UserAdmin.fieldsets + ((None, {'fields': (
+         'display_name', 'following')}),)
 
 
-admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(TwitterUser, TwitterUserAdmin)
