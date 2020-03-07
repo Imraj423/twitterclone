@@ -1,11 +1,13 @@
 from django.shortcuts import render, HttpResponseRedirect, reverse
 from django.shortcuts import render, reverse, HttpResponseRedirect, redirect
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from twitteruser.models import TwitterUser
 from tweet.models import Tweet
 from notification.models import Notification
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import View
 
 
 # def home(request):
@@ -14,15 +16,24 @@ from notification.models import Notification
 #         'user_type': str(type(TwitterUser.objects.get(id=request.user.id)))
 #     })
 
-@login_required(login_url="/login/")
-def home(request):
-    following = list(TwitterUser.objects.get(
-        username=request.user).following.all())
-    following.append(request.user)
-    print(following)
-    item = Tweet.objects.filter(twitter_user__in=following)
-    return render(request, 'index.html', {'data': item})
+# @login_required(login_url="/login/")
+# def home(request):
+#     following = list(TwitterUser.objects.get(username=request.user).following.all())
+#     following.append(request.user)
+#     item = Tweet.objects.filter(twitter_user__in=following)
+#     return render(request, 'index.html', {'data': item})
 
+
+class Home_View(LoginRequiredMixin, View):
+    def get(self, request):
+
+        following = list(TwitterUser.objects.get(
+            username=request.user).following.all())
+        following.append(TwitterUser.objects.get(username=request.user))
+        item = Tweet.objects.filter(twitter_user__in=following)
+
+        return render(request, 'index.html', {
+            'data': item})
 
 @login_required(login_url="/login/")
 def profile_view(request, id):
