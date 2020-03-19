@@ -21,7 +21,7 @@ def home(request):
     following.append(request.user)
     print(following)
     item = Tweet.objects.filter(twitter_user__in=following)
-    return render(request, 'index.html', {'data': item})
+    return render(request, 'index.html', {'data': item}, 'following':following)
 
 
 @login_required(login_url="/login/")
