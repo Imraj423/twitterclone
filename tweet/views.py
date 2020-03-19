@@ -40,3 +40,10 @@ def following_view(request, id):
     current_user = request.user
     current_user.following.add(follow_target)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def unfollowing_view(request, id):
+    follow_target = TwitterUser.objects.get(id=id)
+    current_user = request.user
+    current_user.following.remove(follow_target)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
