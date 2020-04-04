@@ -6,6 +6,7 @@ from .forms import addPost
 from django.contrib.auth.decorators import login_required
 from twitteruser.models import TwitterUser
 from notification.models import Notification
+from django.views.generic.list import ListView
 
 @login_required(login_url="/login/")
 def post_add(request):
@@ -42,10 +43,13 @@ def tweet_detail_view(request, tweet_id):
     try:
         users = TwitterUser.objects.all()
         tweet = Tweet.objects.get(id=tweet_id)
+        
     except Exception:
         return HttpResponseRedirect(reverse('home'))
 
     return render(request, 'detail.html', {
         'tweet': tweet,
-        'users': users
+        'users': users,
+        
     })
+

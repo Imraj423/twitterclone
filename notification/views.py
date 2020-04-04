@@ -16,7 +16,7 @@ def notification_view(request):
         tweets = Tweet.objects.all()
     except Exception:
         return HttpResponseRedirect(reverse('home'))
-
+    
     return render(request, 'notifications.html', {
         'notifications': notifications,
         'users': users,

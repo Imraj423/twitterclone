@@ -7,6 +7,7 @@ authors = ["Imraj423 <dahqniss@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 django = "^3.0.3"
+pillow = "^7.1.1"
 
 [tool.poetry.dev-dependencies]
 

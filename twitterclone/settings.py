@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'authentication.apps.AuthenticationConfig',
     'tweet.apps.TweetConfig',
     'twitteruser.apps.TwitterUserConfig',
-    'twitterclone'
+    'twitterclone',
+    
 ]
 
 MIDDLEWARE = [
