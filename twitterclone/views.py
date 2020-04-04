@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render, HttpResponseRedirect, reverse
 from django.shortcuts import render, reverse, HttpResponseRedirect, redirect
 # from django.contrib.auth.models import User
@@ -8,23 +9,34 @@ from tweet.models import Tweet
 from notification.models import Notification
 
 
-# def home(request):
-#     html = 'index.html'
-#     return render(request, html, {
-#         'user_type': str(type(TwitterUser.objects.get(id=request.user.id)))
-#     })
-
 @login_required(login_url="/login/")
 def home(request):
     following = list(TwitterUser.objects.get(
         username=request.user).following.all())
     following.append(request.user)
-    print(following)
     item = Tweet.objects.filter(twitter_user__in=following)
-    return render(request, 'index.html', {'data': item}, 'following':following)
+    notifications = Notification.objects.filter(recipient=request.user)
+    twitts = Tweet.objects.all()
+    return render(request, 'index.html', {'data': item, 'following': following,
+                                          'notifications': notifications,
+                                          'twitts': twitts})
 
 
-@login_required(login_url="/login/")
+def notify(tweet):
+    mention_pattern = r'([@#][\w_-]+)'
+    tag = re.match(mention_pattern, tweet.body)
+    if tag:
+        try:
+            tagged_user = TwitterUser.objects.get(username=tag.group()[1:])
+            Notification.objects.create(
+                recipient=tagged_user,
+                tweet=tweet
+            )
+        except Exception:
+            pass
+
+
+# @login_required(login_url="/login/")
 def profile_view(request, id):
     html = "profile.html"
     tweet_views = Tweet.objects.filter(twitter_user=id)

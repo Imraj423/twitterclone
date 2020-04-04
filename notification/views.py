@@ -1,3 +1,5 @@
+from django.shortcuts import render, reverse, HttpResponseRedirect
+from notification.models import Notification
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import Notification
@@ -5,17 +7,18 @@ from twitteruser.models import TwitterUser
 from tweet.models import Tweet
 
 
-@login_required
-def notification(request):
-    notifications = Notification.objects.filter(
-        twitteruser=request.user, viewed=False)
-    for i in notifications:
-        i.viewed = True
-        i.save()
+def notification_view(request):
+    try:
+        notifications = list(
+            Notification.objects.filter(recipient=request.user))
+        Notification.objects.filter(recipient=request.user).delete()
+        users = TwitterUser.objects.all()
+        tweets = Tweet.objects.all()
+    except Exception:
+        return HttpResponseRedirect(reverse('home'))
 
-    return render(request, 'notification.html', {
+    return render(request, 'notifications.html', {
         'notifications': notifications,
-        'notification_count': len(notifications),
-        # 'total_following': len(TwitterUser.objects.get(username=request.user).following.all()),
-        # 'total_tweets': len(Tweet.objects.filter(twitter_user=request.user))
+        'users': users,
+        'tweets': tweets
     })

@@ -16,7 +16,7 @@ def post_add(request):
 
         if form.is_valid():
             data = form.cleaned_data
-            Tweet.objects.create(
+            tweet = Tweet.objects.create(
                 body=data['body'],
                 twitter_user=request.user
             )
@@ -26,8 +26,8 @@ def post_add(request):
                     users = TwitterUser.objects.filter(username=username)
                     if users.exists():
                         Notification.objects.create(
-                            follow_target=users.first(),
-                            body=data['body']
+                            recipient=users.first(),
+                            tweet=tweet
                         )
         return HttpResponseRedirect(reverse("home"))
     form = addPost()
@@ -35,15 +35,17 @@ def post_add(request):
     return render(request, html, {'form': form})
 
 
-def following_view(request, id):
-    follow_target = TwitterUser.objects.get(id=id)
-    current_user = request.user
-    current_user.following.add(follow_target)
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+def tweet_detail_view(request, tweet_id):
+    tweet = None
+    users = None
 
-def unfollowing_view(request, id):
-    follow_target = TwitterUser.objects.get(id=id)
-    current_user = request.user
-    current_user.following.remove(follow_target)
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    try:
+        users = TwitterUser.objects.all()
+        tweet = Tweet.objects.get(id=tweet_id)
+    except Exception:
+        return HttpResponseRedirect(reverse('home'))
 
+    return render(request, 'detail.html', {
+        'tweet': tweet,
+        'users': users
+    })

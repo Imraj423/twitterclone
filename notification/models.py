@@ -4,6 +4,8 @@ from tweet.models import Tweet
 
 
 class Notification(models.Model):
-    follow_target = models.ForeignKey(TwitterUser, on_delete=models.CASCADE)
+    recipient = models.ForeignKey(TwitterUser, on_delete=models.CASCADE)
     tweet = models.ForeignKey(Tweet, on_delete=models.CASCADE)
-    viewed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return {self.recipient}

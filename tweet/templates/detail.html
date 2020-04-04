@@ -1,0 +1,44 @@
+
+
+{% load static %}
+
+    <link href='{% static "css/index.css" %}' rel='stylesheet' />
+                <a href="/">
+                    Home
+                </a>
+            <br />
+                
+                
+                <div style="border: 1px black solid; padding-left: 4px;">
+                    <h4>{{ tweet.body }} </h4>
+                
+               <strong><a href="/profile/{{request.user.id}}">
+                    {{request.user.username}}
+                </a></strong> 
+                    
+                        Tweeted at: 
+                    
+                    {{tweet.time}}
+                </div>
+            <br /><br /><br /><br />
+
+
+        <div style="border: 2px gold solid; padding-left: 4px;">
+            <h3>Other Users</h3>
+            {% for user in users %}
+                {% if user.id != request.user.id %}
+                    <a href="/user/{{user.id}}" />  
+                        <div class="card user-container">
+                            <header>
+                                @{{user.username}}
+                            </header></a>
+                            <footer>
+                               Following: {{user.following.count}}
+                            </footer>
+                        </div>
+                    
+                {% endif %}
+            {% endfor %}
+        </div> 
+     
+ 

@@ -9,6 +9,6 @@ urlpatterns = [
     path('', include('notification.urls')),
     path('', include('authentication.urls')),
     path('', include('tweet.urls')),
-    # path('', include('twitteruser.urls')),
+    path('', include('twitteruser.urls')),
     
 ]
